@@ -42,11 +42,27 @@ type Message struct {
 	ToolCallID *string    `json:"tool_call_id,omitempty"`
 }
 
+// ToolDefinition is a tool as the agent's own registry declares it (name +
+// description + JSON-Schema parameters). Optional per trace; the backend
+// treats it as the ground-truth individual description of the tool.
+type ToolDefinition struct {
+	Name        string         `json:"name"`
+	Description string         `json:"description,omitempty"`
+	InputSchema map[string]any `json:"input_schema,omitempty"`
+}
+
 // Trace is one collected agent run.
 type Trace struct {
-	ID       string    `json:"id"`
-	Messages []Message `json:"messages"`
-	Model    *string   `json:"model,omitempty"`
+	ID       string           `json:"id"`
+	Messages []Message        `json:"messages"`
+	Model    *string          `json:"model,omitempty"`
+	Tools    []ToolDefinition `json:"tools,omitempty"`
+}
+
+// WithTools attaches the run's declared tool definitions to the trace.
+func (t Trace) WithTools(tools ...ToolDefinition) Trace {
+	t.Tools = tools
+	return t
 }
 
 // CollectBatch is the body POSTed to {endpoint}/api/collect.
