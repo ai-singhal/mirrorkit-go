@@ -1,3 +1,5 @@
+> **No longer maintained.** This collector was built for an earlier Mirrors product, and its default backend, `api.runmirrors.com`, no longer exists. For the current SDK, see the [Mirrors quickstart](https://mirrors.dev/docs/quickstart).
+
 # mirrorkit (Go)
 
 A lightweight, **drop-in** production trace collector for LLM agents — the Go
